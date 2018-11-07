@@ -1,0 +1,29 @@
+{
+  "name"       : "omidgfx/phenopay-sdk",
+  "description": "Phenopay middle payment gateway helper",
+  "type"       : "library",
+  "homepage"   : "http://github.com/omidgfx/PhenopaySDK",
+  "license"    : "MIT",
+  "authors"    : [
+    {
+      "name" : "Pejman Chatrrooz",
+      "email": "info@omidgfx.com"
+    }
+  ],
+  "require"    : {
+    "php"         : ">=5.6.0",
+    "ext-curl"    : "*",
+    "ext-json"    : "*",
+    "ext-mbstring": "*"
+  },
+  "autoload"   : {
+    "psr-4": {
+      "Padideh\\": "src/Padideh"
+    }
+  },
+  "extra"      : {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
