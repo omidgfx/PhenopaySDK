@@ -1,5 +1,6 @@
 <?php namespace Padideh;
 
+use Padideh\Phenopay\CallbackListener;
 use Padideh\Phenopay\CallbackResult;
 use Padideh\Phenopay\ErrorResponse;
 use Padideh\Phenopay\GetServicesResponse;
@@ -84,7 +85,7 @@ class Phenopay {
      * @return null|CallbackResult|ErrorResponse
      * @throws PhenopayException
      */
-    public function getCallbackResult($silencer = null) {
+    private function getCallbackResult($silencer = null) {
         if(isset($_GET['phenopay_success'])) {
             $phSuccess = intval($_GET['phenopay_success']);
             if($phSuccess === 1) { # seems like the clinet has paid
@@ -102,6 +103,30 @@ class Phenopay {
 
         }
         return null;
+    }
+
+    /**
+     * @param CallbackListener $listener use anonymous classes: <code>new class extends <b>CallbackListener</b>{...}</code>
+     */
+    public function listenToCallback(CallbackListener $listener) {
+        try {
+            $callbackResult = $this->getCallbackResult($listener->getSilencer());
+            if(!is_null($callbackResult)) {
+                if($callbackResult instanceof CallbackResult) {
+                    if(!is_null($token = $listener->getAutoVerifyToken())) {
+                        $verifyResponse = $this->verify($token);
+                        if($verifyResponse instanceof VerifyResponse)
+                            $listener->onVerify($this, $verifyResponse);
+                        else
+                            $listener->onError($this, $verifyResponse);
+                    }
+                } else
+                    $listener->onError($this, $callbackResult);
+            }
+        } catch(\Exception $exception) {
+            $listener->onException($this, $exception);
+        }
+
     }
     //endregion
 
