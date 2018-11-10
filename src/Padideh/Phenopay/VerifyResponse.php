@@ -4,9 +4,9 @@
  * @property-read string $result
  * @property-read int $resultCode
  * @property-read string $token
- * @property-read int $amount TOMANS
+ * @property-read int $amount
  * @property-read int $dateCreated
- * @property-read int $dateReversed
+ * @property-read int $dateVerified
  * Class ReverseResponse
  * @package Padideh\Phenopay
  */

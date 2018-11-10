@@ -33,7 +33,7 @@ class Phenopay {
     //region Methods
 
     /**
-     * ### Returns services whith their availability
+     * ### Returns services with their availability
      * @return ErrorResponse|GetServicesResponse
      * @throws PhenopayException
      */
